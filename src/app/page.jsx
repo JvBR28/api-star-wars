@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '../app/components/Navbar';
+import Footer from './components/Footer';
 
 const Home = () => {
   const [people, setPeople] = useState([]);
@@ -31,10 +32,10 @@ const Home = () => {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold mb-8">Grupo Star Wars</h1>
+    <main className="flex min-h-screen flex-col items-center justify-center">
+      <h1 className="text-4xl font-bold mb-8 pt-24">Star Wars Database</h1>
       <Navbar />
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex p-20">
       <ul className="grid grid-cols-4 gap-4 item-center">
           {people.map((person, index) => {
             const id = person.url.split('/').filter(Boolean).pop();
@@ -54,12 +55,13 @@ const Home = () => {
         </ul>
       </div>
       {nextPage && (
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mb-10">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={fetchNextPage}>
             Carregar mais
           </button>
         </div>
       )}
+    <Footer />
     </main>
   );
 };
