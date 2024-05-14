@@ -1,13 +1,14 @@
 'use client'
+// components/Footer.js
 import React from 'react';
 import Link from 'next/link';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8 w-full">
+    <footer className="bg-gray-800 text-white py-4 text-center w-full">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap items-start justify-evenly">
+        <div className="flex flex-wrap items-start justify-center">
           <MapaDoSite />
           <PerfilDoCriador />
         </div>
