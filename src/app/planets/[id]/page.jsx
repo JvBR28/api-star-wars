@@ -84,6 +84,9 @@ const PlanetPage = () => {
           </div>
         </div>
       </div>
+      <Link legacyBehavior href="/">
+        <a className="mb-8 text-blue-500 hover:text-blue-700">Voltar para Home</a>
+      </Link>
       <Footer />
     </main>
   );

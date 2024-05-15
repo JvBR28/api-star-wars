@@ -4,54 +4,54 @@ import Link from 'next/link';
 import Footer from '../../components/Footer';
 import Navbar from '@/app/components/Navbar';
 
-const ShipPage = () => {
+const VehiclePage = () => {
   const [id, setId] = useState(null);
-  const [ship, setShip] = useState(null);
+  const [vehicle, setVehicle] = useState(null);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
-    const shipId = pathParts[pathParts.length - 1];
-    setId(shipId);
+    const vehicleId = pathParts[pathParts.length - 1];
+    setId(vehicleId);
   }, []);
 
   useEffect(() => {
-    const fetchShip = async () => {
+    const fetchVehicle = async () => {
       try {
         if (!id) {
           console.log("Nenhum id pego");
           return;
         }
-        const shipRes = await fetch(`https://swapi.dev/api/starships/${id}/`);
-        if (!shipRes.ok) {
-          console.error("Error ao obter nave:", shipRes.status);
+        const vehicleRes = await fetch(`https://swapi.dev/api/vehicles/${id}/`);
+        if (!vehicleRes.ok) {
+          console.error("Error ao obter veículo:", vehicleRes.status);
           return;
         }
-        const shipData = await shipRes.json();
+        const vehicleData = await vehicleRes.json();
         const filmsData = await Promise.all(
-          shipData.films.map(async (filmUrl) => {
+          vehicleData.films.map(async (filmUrl) => {
             const filmRes = await fetch(filmUrl);
             const filmData = await filmRes.json();
             return filmData.title;
           })
         );
-        const shipDetails = {
-          name: shipData.name,
-          model: shipData.model,
-          cost_in_credits: shipData.cost_in_credits,
-          length: shipData.length,
-          crew: shipData.crew,
-          passengers: shipData.passengers,
+        const vehicleDetails = {
+          name: vehicleData.name,
+          model: vehicleData.model,
+          cost_in_credits: vehicleData.cost_in_credits,
+          length: vehicleData.length,
+          crew: vehicleData.crew,
+          passengers: vehicleData.passengers,
           films: filmsData
         };
-        setShip(shipDetails);
+        setVehicle(vehicleDetails);
       } catch (error) {
-        console.error('Erro ao pegar nave:', error);
+        console.error('Erro ao pegar veículo:', error);
       }
     };
-    fetchShip();
+    fetchVehicle();
   }, [id]);
 
-  if (!ship) {
+  if (!vehicle) {
     return <div>Loading...</div>;
   }
 
@@ -61,21 +61,21 @@ const ShipPage = () => {
         <Navbar />
       </div>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4 text-center">{ship.name}</h1>
+        <h1 className="text-3xl font-bold mb-4 text-center">{vehicle.name}</h1>
         <div className="grid grid-cols-1 gap-4">
           <div className="border p-4 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">Detalhes da Nave</h2>
-            <p><span className="font-semibold">Nome:</span> {ship.name}</p>
-            <p><span className="font-semibold">Modelo:</span> {ship.model}</p>
-            <p><span className="font-semibold">Custo em Créditos:</span> {ship.cost_in_credits}</p>
-            <p><span className="font-semibold">Tamanho:</span> {ship.length}</p>
-            <p><span className="font-semibold">Tripulação:</span> {ship.crew}</p>
-            <p><span className="font-semibold">Passageiros:</span> {ship.passengers}</p>
+            <h2 className="text-xl font-semibold mb-2">Detalhes do Veículo</h2>
+            <p><span className="font-semibold">Nome:</span> {vehicle.name}</p>
+            <p><span className="font-semibold">Modelo:</span> {vehicle.model}</p>
+            <p><span className="font-semibold">Custo em Créditos:</span> {vehicle.cost_in_credits}</p>
+            <p><span className="font-semibold">Tamanho:</span> {vehicle.length}</p>
+            <p><span className="font-semibold">Tripulação:</span> {vehicle.crew}</p>
+            <p><span className="font-semibold">Passageiros:</span> {vehicle.passengers}</p>
           </div>
           <div className="border p-4 rounded-md">
             <h2 className="text-xl font-semibold mb-2">Filmes</h2>
             <ul>
-              {ship.films.map((film, index) => (
+              {vehicle.films.map((film, index) => (
                 <li key={index}>
                   <Link legacyBehavior href={`/films/${index + 1}`}>
                     <a className="text-blue-500 hover:text-blue-700">{film}</a>
@@ -94,4 +94,4 @@ const ShipPage = () => {
   );
 };
 
-export default ShipPage;
+export default VehiclePage;
