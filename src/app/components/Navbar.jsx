@@ -7,6 +7,7 @@ const Navbar = () => {
     <nav className="mb-8">
       <ul className="flex space-x-4">
         <NavItem href="/about">Sobre</NavItem>
+        <NavItem href="/characters">Personagens</NavItem>
         <NavItem href="/planets">Planetas</NavItem>
         <NavItem href="/ships">Naves</NavItem>
         <NavItem href="/vehicles">Veículos</NavItem>

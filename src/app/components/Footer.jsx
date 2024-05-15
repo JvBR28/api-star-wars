@@ -28,6 +28,7 @@ const MapaDoSite = () => {
       <ul>
         <li className='hover:text-blue-500'><Link legacyBehavior href="/">Home</Link></li>
         <li className='hover:text-blue-500'><Link legacyBehavior href="/about">Sobre</Link></li>
+        <li className='hover:text-blue-500'><Link legacyBehavior href="/characters">Personagens</Link></li>
         <li className='hover:text-blue-500'><Link legacyBehavior href="/planets">Planetas</Link></li>
         <li className='hover:text-blue-500'><Link legacyBehavior href="/ships">Naves</Link></li>
         <li className='hover:text-blue-500'><Link legacyBehavior href="/vehicles">Veículos</Link></li>
