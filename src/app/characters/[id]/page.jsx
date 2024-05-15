@@ -1,11 +1,14 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import Character from '../../components/Character';
+import Link from 'next/link';
+import Footer from '../../components/Footer';
+import Navbar from '../../components/Navbar';
 
 const CharacterPage = () => {
   const [id, setId] = useState(null);
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [episodeToId, setEpisodeToId] = useState(null);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
@@ -33,7 +36,7 @@ const CharacterPage = () => {
           characterData.films.map(async (filmUrl) => {
             const filmRes = await fetch(filmUrl);
             const filmData = await filmRes.json();
-            return filmData.title;
+            return { title: filmData.title, episode_id: filmData.episode_id };
           })
         );
         const speciesData = await Promise.all(
@@ -43,6 +46,18 @@ const CharacterPage = () => {
             return speciesData.name;
           })
         );
+        
+        const episodeToIdMapping = {
+          1: 4, 
+          2: 5, 
+          3: 6, 
+          4: 1, 
+          5: 2, 
+          6: 3
+        };
+
+        setEpisodeToId(episodeToIdMapping);
+
         const characterDetails = {
           name: characterData.name,
           height: characterData.height,
@@ -50,7 +65,8 @@ const CharacterPage = () => {
           birth_year: characterData.birth_year,
           homeworld: homeworldData.name,
           films: filmsData,
-          species: speciesData.join(', ')
+          species: speciesData.join(', '),
+          image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`
         };
         setCharacter(characterDetails);
         setLoading(false);
@@ -73,7 +89,44 @@ const CharacterPage = () => {
     return <div>Error ao carregar personagem.</div>;
   }
 
-  return <Character character={character} />;
+  return (
+    <main className="flex flex-col min-h-screen items-center justify-center">
+      <div className='p-20'>
+        <Navbar />
+      </div>
+      <div className="w-full py-4 mb-8 text-center">
+        <h1 className="text-3xl font-bold">{character.name}</h1>
+      </div>
+      <div className="w-full flex items-center justify-center mb-8">
+        <img src={character.image} alt={character.name} className="w-72 h-72 rounded-lg" />
+      </div>
+      <div className="container mx-auto px-4 py-8">
+        <div className="border p-4 rounded-md">
+          <h2 className="text-xl font-semibold mb-2">Detalhes do Personagem</h2>
+          <p><span className="font-semibold">Altura:</span> {character.height}</p>
+          <p><span className="font-semibold">Peso:</span> {character.mass}</p>
+          <p><span className="font-semibold">Ano de Nascimento:</span> {character.birth_year}</p>
+          <p><span className="font-semibold">Planeta Natal:</span> {character.homeworld}</p>
+        </div>
+        <div className="border p-4 rounded-md mt-4">
+          <h2 className="text-xl font-semibold mb-2">Filmes</h2>
+          <ul>
+            {character.films.map((film) => (
+              <li key={film.episode_id}>
+                <Link legacyBehavior href={`/films/${episodeToId[film.episode_id]}`}>
+                  <a className="text-blue-500 hover:text-blue-700">{film.title}</a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <Link legacyBehavior href="/">
+        <a className="mb-8 text-blue-500 hover:text-blue-700">Voltar para Home</a>
+      </Link>
+      <Footer />
+    </main>
+  );
 };
 
 export default CharacterPage;
