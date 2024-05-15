@@ -43,7 +43,7 @@ const Species = () => {
             return (
               <div key={index} className="border p-4 rounded-md">
                 <Link legacyBehavior href={`/species/${id}`}>
-                  <a className="text-blue-500 hover:text-blue-700">{specie.name}</a>
+                  <a className="text-lg font-bold text-blue-500 hover:text-blue-700">{specie.name}</a>
                 </Link>
               </div>
             );
