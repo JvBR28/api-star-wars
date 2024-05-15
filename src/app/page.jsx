@@ -1,67 +1,50 @@
-'use client'
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Navbar from '../app/components/Navbar';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Link from 'next/link';
 
 const Home = () => {
-  const [people, setPeople] = useState([]);
-  const [nextPage, setNextPage] = useState('');
-
-  useEffect(() => {
-    const fetchData = async (url) => {
-      try {
-        const res = await fetch(url || 'https://swapi.dev/api/people');
-        const data = await res.json();
-        setPeople(data.results);
-        setNextPage(data.next);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const fetchNextPage = async () => {
-    if (nextPage) {
-      const res = await fetch(nextPage);
-      const data = await res.json();
-      setPeople([...people, ...data.results]);
-      setNextPage(data.next);
-    }
-  };
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-8 pt-24">Star Wars Database</h1>
-      <Navbar />
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex p-20">
-      <ul className="grid grid-cols-4 gap-4 item-center">
-          {people.map((person, index) => {
-            const id = person.url.split('/').filter(Boolean).pop();
-            return (
-              <li className="w-52 mx-4" key={index}>
-                <Link legacyBehavior href={`/characters/${id}`}>
-                  <a>
-                    <img src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} alt={person.name} />
-                    <div className="p-2 text-sm text-black bg-gray-400">
-                      {person.name}
-                    </div>
-                  </a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+    <main className="flex flex-col min-h-screen items-center justify-center">
+      <div className='p-20'>
+        <Navbar />
       </div>
-      {nextPage && (
-        <div className="flex justify-center mb-10">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition" onClick={fetchNextPage}>
-            Carregar mais
-          </button>
-        </div>
-      )}
-    <Footer />
+      <h1 className="text-4xl font-bold mb-8">Bem-vindo ao Mundo Star Wars</h1>
+      <p className="text-xl mb-8">Escolha um sistema para navegar:</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <Link legacyBehavior href="/characters">
+          <a className="flex flex-col items-center justify-center text-center p-8 border border-gray-300 rounded-md hover:border-blue-500 transition duration-300">
+            <img src="/images/characters.jpg" alt="Characters" className="w-32 h-32 object-cover rounded-full mb-4 hover:opacity-80 transition duration-300" />
+            <span className="text-lg font-bold text-blue-500 hover:text-blue-700">Personagens</span>
+          </a>
+        </Link>
+        <Link legacyBehavior href="/planets">
+          <a className="flex flex-col items-center justify-center text-center p-8 border border-gray-300 rounded-md hover:border-blue-500 transition duration-300">
+            <img src="/images/planets.jpg" alt="Planets" className="w-32 h-32 object-cover rounded-full mb-4 hover:opacity-80 transition duration-300" />
+            <span className="text-lg font-bold text-blue-500 hover:text-blue-700">Planetas</span>
+          </a>
+        </Link>
+        <Link legacyBehavior href="/ships">
+          <a className="flex flex-col items-center justify-center text-center p-8 border border-gray-300 rounded-md hover:border-blue-500 transition duration-300">
+            <img src="/images/ships.jpg" alt="Ships" className="w-32 h-32 object-cover rounded-full mb-4 hover:opacity-80 transition duration-300" />
+            <span className="text-lg font-bold text-blue-500 hover:text-blue-700">Naves</span>
+          </a>
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+        <Link legacyBehavior href="/vehicles">
+          <a className="flex flex-col items-center justify-center text-center p-8 border border-gray-300 rounded-md hover:border-blue-500 transition duration-300">
+            <img src="/images/vehicles.jpg" alt="Vehicles" className="w-32 h-32 object-cover rounded-full mb-4 hover:opacity-80 transition duration-300" />
+            <span className="text-lg font-bold text-blue-500 hover:text-blue-700">Veículos</span>
+          </a>
+        </Link>
+        <Link legacyBehavior href="/species">
+          <a className="flex flex-col items-center justify-center text-center p-8 border border-gray-300 rounded-md hover:border-blue-500 transition duration-300">
+            <img src="/images/species.jpg" alt="Species" className="w-32 h-32 object-cover rounded-full mb-4 hover:opacity-80 transition duration-300" />
+            <span className="text-lg font-bold text-blue-500 hover:text-blue-700">Espécies</span>
+          </a>
+        </Link>
+      </div>
+      <Footer />
     </main>
   );
 };
