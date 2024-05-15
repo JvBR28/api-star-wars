@@ -91,10 +91,8 @@ const CharacterPage = () => {
 
   return (
     <main className="flex flex-col min-h-screen items-center justify-center">
-      <div className='p-20'>
-        <Navbar />
-      </div>
-      <div className="w-full py-4 mb-8 text-center">
+      <Navbar />
+      <div className="w-full py-4 mt-24 mb-8 text-center">
         <h1 className="text-3xl font-bold">{character.name}</h1>
       </div>
       <div className="w-full flex items-center justify-center mb-8">

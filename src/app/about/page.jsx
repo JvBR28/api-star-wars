@@ -4,13 +4,12 @@ import Footer from '../components/Footer';
 
 const About = () => {
   return (
-    <div className='flex flex-col min-h-screen justify-center items-center text-center'>
-      <h1 className="text-4xl font-bold mb-8 pt-24">Mundo Star Wars</h1>
-        <Navbar />
-      <main className="container mx-auto px-4 py-20 flex-1">
-        <h1 className="text-3xl font-bold mb-4">Bem-vindo ao Star Wars Database</h1>
+    <main className="flex flex-col min-h-screen">
+      <Navbar />
+      <div className="container mx-auto px-4 py-8 justify-center text-center">
+        <h1 className="text-4xl font-bold mb-8 pt-24">Sobre</h1>
         <p>
-          O Star Wars Database é um site para aqueles interessados no mundo de Star Wars. Aqui você pode explorar diversos aspectos do universo de Star Wars, incluindo informações sobre personagens, filmes, veículos, espécies, planetas e muito mais.
+          O Mundo Star Wars é um site para aqueles interessados no mundo de Star Wars. Aqui você pode explorar diversos aspectos do universo de Star Wars, incluindo informações sobre personagens, filmes, veículos, espécies, planetas e muito mais.
         </p>
         <p>
           Nosso site é construído com base na API SWAPI (Star Wars API), uma API gratuita que fornece dados sobre o universo de Star Wars. Você pode encontrar mais informações sobre a API visitando o seguinte link: {' '}
@@ -19,9 +18,12 @@ const About = () => {
           </a>
           .
         </p>
-      </main>
+        <p>
+          Infelizmente, a API não disponibiliza imagens para nada além dos personagens, mas esperamos que mesmo sem as imagens você possa descobrir mais sobre seus planetas, naves, espécies ou veículos favoritos.
+        </p>
+      </div>
       <Footer />
-    </div>
+    </main>
   );
 };
 

@@ -76,10 +76,8 @@ const PlanetPage = () => {
 
   return (
     <main className="flex flex-col min-h-screen items-center justify-center">
-      <div className='p-20'>
-        <Navbar />
-      </div>
-      <div className="container mx-auto px-4 py-8">
+      <Navbar />
+      <div className="container mx-auto px-4 py-8 mt-20">
         <h1 className="text-3xl font-bold mb-4 text-center">{planet.name}</h1>
         <div className="grid grid-cols-1 gap-4">
           <div className="border p-4 rounded-md">

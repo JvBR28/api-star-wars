@@ -67,10 +67,8 @@ const FilmPage = () => {
 
   return (
     <main className="flex flex-col min-h-screen items-center justify-center">
-      <div className='p-20'>
-        <Navbar />
-      </div>
-      <div className="container mx-auto px-4 py-8">
+      <Navbar />
+      <div className="container mx-auto px-4 py-8 mt-20">
         <h1 className="text-3xl font-bold mb-4 text-center">{film.title}</h1>
         <div className="border p-4 rounded-md">
           <h2 className="text-xl font-semibold mb-2">Detalhes do Filme</h2>

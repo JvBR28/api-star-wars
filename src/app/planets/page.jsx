@@ -46,9 +46,8 @@ const Planets = () => {
 
   return (
     <main className="flex flex-col min-h-screen items-center justify-center">
-      <h1 className="text-4xl font-bold mb-8 pt-24">Mundo Star Wars</h1>
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 mt-20">
         <h1 className="text-3xl font-bold mb-4 text-center">Planetas</h1>
         <div className="mb-4">
           <input
