@@ -1,4 +1,5 @@
 'use client'
+// pages/species/[id].js
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Footer from '../../components/Footer';
@@ -7,21 +8,16 @@ import Navbar from '../../components/Navbar';
 const SpeciesPage = () => {
   const [id, setId] = useState(null);
   const [species, setSpecies] = useState(null);
-
-  useEffect(() => {
-    const pathParts = window.location.pathname.split('/');
-    const speciesId = pathParts[pathParts.length - 1];
-    setId(speciesId);
-  }, []);
+  const [episodeToId, setEpisodeToId] = useState(null);
 
   useEffect(() => {
     const fetchSpecies = async () => {
       try {
-        if (!id) {
-          console.log("Nenhum id pego");
-          return;
-        }
-        const speciesRes = await fetch(`https://swapi.dev/api/species/${id}/`);
+        const pathParts = window.location.pathname.split('/');
+        const speciesId = pathParts[pathParts.length - 1];
+        setId(speciesId);
+
+        const speciesRes = await fetch(`https://swapi.dev/api/species/${speciesId}/`);
         if (!speciesRes.ok) {
           console.error("Error ao obter espécie:", speciesRes.status);
           return;
@@ -33,9 +29,21 @@ const SpeciesPage = () => {
           speciesData.films.map(async (filmUrl) => {
             const filmRes = await fetch(filmUrl);
             const filmData = await filmRes.json();
-            return filmData.title;
+            return { title: filmData.title, episode_id: filmData.episode_id };
           })
         );
+
+        const episodeToIdMapping = {
+          1: 4, 
+          2: 5, 
+          3: 6, 
+          4: 1, 
+          5: 2, 
+          6: 3
+        };
+
+        setEpisodeToId(episodeToIdMapping);
+
         const peopleData = await Promise.all(
           speciesData.people.map(async (peopleUrl) => {
             const peopleRes = await fetch(peopleUrl);
@@ -58,9 +66,9 @@ const SpeciesPage = () => {
       }
     };
     fetchSpecies();
-  }, [id]);
+  }, []);
 
-  if (!species) {
+  if (!species || !episodeToId) {
     return <div>Loading...</div>;
   }
 
@@ -83,10 +91,10 @@ const SpeciesPage = () => {
           <div className="border p-4 rounded-md">
             <h2 className="text-xl font-semibold mb-2">Filmes</h2>
             <ul>
-              {species.films.map((film, index) => (
-                <li key={index}>
-                  <Link legacyBehavior href={`/films/${index + 1}`}>
-                    <a className="text-blue-500 hover:text-blue-700">{film}</a>
+              {species.films.map((film) => (
+                <li key={film.episode_id}>
+                  <Link legacyBehavior href={`/films/${episodeToId[film.episode_id]}`}>
+                    <a className="text-blue-500 hover:text-blue-700">{film.title}</a>
                   </Link>
                 </li>
               ))}

@@ -31,7 +31,7 @@ const VehiclePage = () => {
           vehicleData.films.map(async (filmUrl) => {
             const filmRes = await fetch(filmUrl);
             const filmData = await filmRes.json();
-            return filmData.title;
+            return { title: filmData.title, episode_id: filmData.episode_id };
           })
         );
         const vehicleDetails = {
@@ -50,6 +50,15 @@ const VehiclePage = () => {
     };
     fetchVehicle();
   }, [id]);
+
+  const episodeToId = {
+    1: 4,
+    2: 5,
+    3: 6,
+    4: 1,
+    5: 2,
+    6: 3
+  };
 
   if (!vehicle) {
     return <div>Loading...</div>;
@@ -77,8 +86,8 @@ const VehiclePage = () => {
             <ul>
               {vehicle.films.map((film, index) => (
                 <li key={index}>
-                  <Link legacyBehavior href={`/films/${index + 1}`}>
-                    <a className="text-blue-500 hover:text-blue-700">{film}</a>
+                  <Link legacyBehavior href={`/films/${episodeToId[film.episode_id]}`}>
+                    <a className="text-blue-500 hover:text-blue-700">{film.title}</a>
                   </Link>
                 </li>
               ))}
