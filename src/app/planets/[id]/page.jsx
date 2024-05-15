@@ -7,6 +7,7 @@ import Navbar from '@/app/components/Navbar';
 const PlanetPage = () => {
   const [id, setId] = useState(null);
   const [planet, setPlanet] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
@@ -21,6 +22,7 @@ const PlanetPage = () => {
           console.log("Nenhum id pego");
           return;
         }
+        setLoading(true);
         const planetRes = await fetch(`https://swapi.dev/api/planets/${id}/`);
         if (!planetRes.ok) {
           console.error("Error ao obter planeta:", planetRes.status);
@@ -43,6 +45,7 @@ const PlanetPage = () => {
           films: filmsData
         };
         setPlanet(planetDetails);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao pegar planeta:', error);
       }
@@ -59,8 +62,16 @@ const PlanetPage = () => {
     6: 3
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <img src="/spinner.svg" alt="Loading spinner" />
+      </div>
+    );
+  }
+
   if (!planet) {
-    return <div>Loading...</div>;
+    return <div>Error ao carregar planeta.</div>;
   }
 
   return (

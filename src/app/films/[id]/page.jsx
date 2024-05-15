@@ -1,5 +1,4 @@
 'use client'
-// pages/films/[id].js
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Footer from '../../components/Footer';
@@ -8,6 +7,7 @@ import Navbar from '../../components/Navbar';
 const FilmPage = () => {
   const [id, setId] = useState(null);
   const [film, setFilm] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
@@ -22,6 +22,7 @@ const FilmPage = () => {
           console.log("Nenhum id pego");
           return;
         }
+        setLoading(true);
         const filmRes = await fetch(`https://swapi.dev/api/films/${id}/`);
         if (!filmRes.ok) {
           console.error("Error ao obter filme:", filmRes.status);
@@ -44,6 +45,7 @@ const FilmPage = () => {
           characters: charactersData
         };
         setFilm(filmDetails);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao pegar filme:', error);
       }
@@ -51,8 +53,16 @@ const FilmPage = () => {
     fetchFilm();
   }, [id]);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <img src="/spinner.svg" alt="Loading spinner" />
+      </div>
+    );
+  }
+
   if (!film) {
-    return <div>Loading...</div>;
+    return <div>Error ao carregar filme.</div>;
   }
 
   return (

@@ -5,6 +5,7 @@ import Character from '../../components/Character';
 const CharacterPage = () => {
   const [id, setId] = useState(null);
   const [character, setCharacter] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
@@ -19,6 +20,7 @@ const CharacterPage = () => {
           console.log("Nenhum id pego");
           return;
         }
+        setLoading(true);
         const characterRes = await fetch(`https://swapi.dev/api/people/${id}/`);
         if (!characterRes.ok) {
           console.error("Error ao obter personagem:", characterRes.status);
@@ -51,6 +53,7 @@ const CharacterPage = () => {
           species: speciesData.join(', ')
         };
         setCharacter(characterDetails);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao pegar personagem:', error);
       }
@@ -58,8 +61,16 @@ const CharacterPage = () => {
     fetchCharacter();
   }, [id]);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <img src="/spinner.svg" alt="Loading spinner" />
+      </div>
+    );
+  }
+
   if (!character) {
-    return <div>Loading...</div>;
+    return <div>Error ao carregar personagem.</div>;
   }
 
   return <Character character={character} />;

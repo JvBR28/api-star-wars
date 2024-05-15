@@ -7,6 +7,7 @@ import Navbar from '@/app/components/Navbar';
 const VehiclePage = () => {
   const [id, setId] = useState(null);
   const [vehicle, setVehicle] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
@@ -17,6 +18,7 @@ const VehiclePage = () => {
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
+        setLoading(true);
         if (!id) {
           console.log("Nenhum id pego");
           return;
@@ -44,6 +46,7 @@ const VehiclePage = () => {
           films: filmsData
         };
         setVehicle(vehicleDetails);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao pegar veículo:', error);
       }
@@ -60,8 +63,16 @@ const VehiclePage = () => {
     6: 3
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <img src="/spinner.svg" alt="Loading spinner" />
+      </div>
+    );
+  }
+
   if (!vehicle) {
-    return <div>Loading...</div>;
+    return <div>Error ao carregar veículo.</div>;
   }
 
   return (
@@ -104,3 +115,4 @@ const VehiclePage = () => {
 };
 
 export default VehiclePage;
+

@@ -1,5 +1,4 @@
 'use client'
-// pages/species/[id].js
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Footer from '../../components/Footer';
@@ -9,10 +8,12 @@ const SpeciesPage = () => {
   const [id, setId] = useState(null);
   const [species, setSpecies] = useState(null);
   const [episodeToId, setEpisodeToId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSpecies = async () => {
       try {
+        setLoading(true);
         const pathParts = window.location.pathname.split('/');
         const speciesId = pathParts[pathParts.length - 1];
         setId(speciesId);
@@ -61,6 +62,7 @@ const SpeciesPage = () => {
           films: filmsData
         };
         setSpecies(speciesDetails);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao pegar espécie:', error);
       }
@@ -68,8 +70,16 @@ const SpeciesPage = () => {
     fetchSpecies();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <img src="/spinner.svg" alt="Loading spinner" />
+      </div>
+    );
+  }
+
   if (!species || !episodeToId) {
-    return <div>Loading...</div>;
+    return <div>Error ao carregar espécie.</div>;
   }
 
   return (

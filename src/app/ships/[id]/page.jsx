@@ -7,6 +7,7 @@ import Navbar from '@/app/components/Navbar';
 const ShipPage = () => {
   const [id, setId] = useState(null);
   const [ship, setShip] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
@@ -21,6 +22,7 @@ const ShipPage = () => {
           console.log("Nenhum id pego");
           return;
         }
+        setLoading(true);
         const shipRes = await fetch(`https://swapi.dev/api/starships/${id}/`);
         if (!shipRes.ok) {
           console.error("Error ao obter nave:", shipRes.status);
@@ -44,6 +46,7 @@ const ShipPage = () => {
           films: filmsData
         };
         setShip(shipDetails);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao pegar nave:', error);
       }
@@ -60,8 +63,16 @@ const ShipPage = () => {
     6: 3
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <img src="/spinner.svg" alt="Loading spinner" />
+      </div>
+    );
+  }
+
   if (!ship) {
-    return <div>Loading...</div>;
+    return <div>Error ao carregar nave.</div>;
   }
 
   return (

@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 const About = () => {
   return (
     <div className='flex flex-col min-h-screen justify-center items-center text-center'>
-      <h1 className="text-4xl font-bold mb-8 pt-24">Star Wars Database</h1>
+      <h1 className="text-4xl font-bold mb-8 pt-24">Mundo Star Wars</h1>
         <Navbar />
       <main className="container mx-auto px-4 py-20 flex-1">
         <h1 className="text-3xl font-bold mb-4">Bem-vindo ao Star Wars Database</h1>
